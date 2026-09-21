@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { fetchUsers } from './api/usersApi.js';
 
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
@@ -55,6 +56,15 @@ function App() {
         }
     };
 
+    const userUpdateHandler = async () => {
+        try {
+            const updatedUsers = await fetchUsers();
+            setUsers(updatedUsers);
+        } catch (error) {
+            console.error('Error updating users:', error);
+        }
+    };
+
     return (
         <>
             <Header />
@@ -63,7 +73,7 @@ function App() {
                 <section className="card users-container">
                     <UserSearch />
 
-                    <UserList users={users} />
+                    <UserList users={users} onUserUpdate={userUpdateHandler} />
 
                     <button className="btn-add btn" onClick={addUserClickHandler}>Add new user</button >
 
@@ -76,18 +86,6 @@ function App() {
             <Footer />
         </>
     )
-}
-
-async function fetchUsers() {
-    const response = await fetch(baseUrl, {
-        headers: {
-            'apikey': apiKey,
-        }
-    });
-
-    const data = await response.json();
-
-    return data;
 }
 
 
