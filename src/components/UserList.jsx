@@ -13,6 +13,11 @@ export default function UserList({
         setShowUserDetails(true);
     };
 
+    const hideUserDetailsHandler = () => {
+        setShowUserDetails(false);
+        setSelectedUserId(null);
+    };
+
     return (
         <div className="table-wrapper">
             <table className="table">
@@ -81,7 +86,7 @@ export default function UserList({
                 </tbody>
             </table>
 
-            {showUserDetails && <UserDetails userId={selectedUserId} />}
+            {showUserDetails && <UserDetails userId={selectedUserId} onClose={hideUserDetailsHandler} />}
         </div>
     );
 }
