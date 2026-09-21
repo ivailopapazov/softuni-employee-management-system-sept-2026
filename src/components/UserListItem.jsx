@@ -1,9 +1,11 @@
+import { fromIsoDate } from "../utils/dateTimeUtils.js";
+
 export default function UserListItem({
     id,
     firstName,
     lastName,
     email,
-    phone,
+    phoneNumber,
     createdAt,
     imageUrl,
 }) {
@@ -15,9 +17,9 @@ export default function UserListItem({
             <td>{firstName}</td>
             <td>{lastName}</td>
             <td>{email}</td>
-            <td>{phone}</td>
+            <td>{phoneNumber}</td>
             {/* Fix this date */}
-            <td>{createdAt}</td>
+            <td>{fromIsoDate(createdAt)}</td>
 
             <td className="actions">
                 <button className="btn edit-btn" title="Edit">
