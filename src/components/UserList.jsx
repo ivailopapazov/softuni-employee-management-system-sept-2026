@@ -3,6 +3,7 @@ import UserDetails from "./UserDetails.jsx";
 import UserListItem from "./UserListItem.jsx";
 import UserDeleteModal from "./UserDeleteModal.jsx";
 import Spinner from "./Spinner.jsx";
+import SaveUserModal from "./SaveUserModal.jsx";
 
 const baseUrl = 'https://wqbswfpqjgpicubvimbh.supabase.co/rest/v1/users';
 const apiKey = 'sb_publishable_aO_n-_rJOWzVwaQsy-qPgw_i3fSlh_m';
@@ -14,6 +15,7 @@ export default function UserList({
     const [selectedUserId, setSelectedUserId] = useState(null);
     const [showUserDetails, setShowUserDetails] = useState(false);
     const [showUserDelete, setShowUserDelete] = useState(false);
+    const [showUserEdit, setShowUserEdit] = useState(false);
 
     const showUserDetailsHandler = (userId) => {
         setSelectedUserId(userId);
@@ -28,6 +30,7 @@ export default function UserList({
     const hideModalHandler = () => {
         setShowUserDetails(false);
         setShowUserDelete(false);
+        setShowUserEdit(false);
         setSelectedUserId(null);
     };
 
@@ -47,6 +50,11 @@ export default function UserList({
             hideModalHandler();
         }
     }
+
+    const editUserHandler = (userId) => {
+        setSelectedUserId(userId);
+        setShowUserEdit(true);
+    };
 
     return (
         <div className="table-wrapper">
@@ -112,6 +120,7 @@ export default function UserList({
                             key={user.id}
                             onInfo={showUserDetailsHandler}
                             onDelete={showUserDeleteHandler}
+                            onEdit={editUserHandler}
                             {...user}
                         />
                     ))}
@@ -120,6 +129,13 @@ export default function UserList({
 
             {showUserDetails && <UserDetails userId={selectedUserId} onClose={hideModalHandler} />}
             {showUserDelete && <UserDeleteModal onClose={hideModalHandler} onDelete={deleteUserHandler} />}
+            {showUserEdit && (
+                <SaveUserModal
+                    userId={selectedUserId}
+                    onClose={hideModalHandler}
+                    edit
+                />
+            )}
         </div>
     );
 }
