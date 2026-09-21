@@ -6,41 +6,49 @@ import UserList from './components/UserList.jsx';
 import UserSearch from './components/UserSearch.jsx';
 import Pagination from './components/Pagination.jsx';
 import './styles.css';
+import SaveUserModal from './components/SaveUserModal.jsx';
 
 function App() {
-  const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [showSaveUserModal, setShowSaveUserModal] = useState(false);
 
-  useEffect(() => {
-    // Fetch users from an API or other source
-    fetch('https://wqbswfpqjgpicubvimbh.supabase.co/rest/v1/users', {
-      headers: {
-        'apikey': 'sb_publishable_aO_n-_rJOWzVwaQsy-qPgw_i3fSlh_m'
-      }
-    })
-      .then(res => res.json())
-      .then(data => setUsers(data))
-      .catch(error => console.error('Error fetching users:', error));
-  }, []);
+    useEffect(() => {
+        // Fetch users from an API or other source
+        fetch('https://wqbswfpqjgpicubvimbh.supabase.co/rest/v1/users', {
+            headers: {
+                'apikey': 'sb_publishable_aO_n-_rJOWzVwaQsy-qPgw_i3fSlh_m'
+            }
+        })
+            .then(res => res.json())
+            .then(data => setUsers(data))
+            .catch(error => console.error('Error fetching users:', error));
+    }, []);
 
-  return (
-    <>
-      <Header />
+    const addUserClickHandler = () => {
+        setShowSaveUserModal(true);
+    };
 
-      <main className="main">
-        <section className="card users-container">
-          <UserSearch />
+    return (
+        <>
+            <Header />
 
-          <UserList users={users} />
+            <main className="main">
+                <section className="card users-container">
+                    <UserSearch />
 
-          <button className="btn-add btn">Add new user</button >
+                    <UserList users={users} />
 
-          <Pagination />
-        </section >
-      </main>
+                    <button className="btn-add btn" onClick={addUserClickHandler}>Add new user</button >
 
-      <Footer />
-    </>
-  )
+                    {showSaveUserModal && <SaveUserModal />}
+
+                    <Pagination />
+                </section >
+            </main>
+
+            <Footer />
+        </>
+    )
 }
 
 export default App
