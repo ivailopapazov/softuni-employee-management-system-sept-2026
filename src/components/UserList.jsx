@@ -2,6 +2,7 @@ import { useState } from "react";
 import UserDetails from "./UserDetails.jsx";
 import UserListItem from "./UserListItem.jsx";
 import UserDeleteModal from "./UserDeleteModal.jsx";
+import Spinner from "./Spinner.jsx";
 
 const baseUrl = 'https://wqbswfpqjgpicubvimbh.supabase.co/rest/v1/users';
 const apiKey = 'sb_publishable_aO_n-_rJOWzVwaQsy-qPgw_i3fSlh_m';
@@ -105,6 +106,7 @@ export default function UserList({
                     </tr>
                 </thead>
                 <tbody>
+                    {users.length === 0 && <Spinner />}
                     {users.map(user => (
                         <UserListItem
                             key={user.id}
