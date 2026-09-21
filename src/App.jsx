@@ -47,6 +47,7 @@ function App() {
         })
             .then(() => console.log('User added:'))
             .catch(error => alert('Error adding user: ' + error))
+            .finally(() => setShowSaveUserModal(false));
     }
 
     return (
